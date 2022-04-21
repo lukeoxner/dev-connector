@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://luke:rootpassword@dev-connector.xr8to.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "jwtSecret": "mysecrettoken"
-}
