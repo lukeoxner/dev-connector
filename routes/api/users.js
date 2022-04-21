@@ -40,11 +40,14 @@ router.post(
 			}
 
 			// Get user gravatar
-			const avatar = gravatar.url(email, {
-				s: '200',
-				r: 'pg',
-				d: 'mm',
-			});
+			const avatar = normalize(
+				gravatar.url(email, {
+					s: '200',
+					r: 'pg',
+					d: 'mm',
+				}),
+				{ forceHttps: true }
+			);
 
 			// Create new user (does NOT save to database)
 			user = new User({
