@@ -8,6 +8,11 @@ import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
+import NotFound from './components/layout/NotFound';
+import ProfileForm from './components/profile-forms/ProfileForm';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
+import { LOGOUT } from './actions/types';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -17,8 +22,14 @@ import setAuthToken from './utils/setAuthToken';
 
 const App = () => {
 	useEffect(() => {
-		setAuthToken(localStorage.token);
+		if (localStorage.token) {
+			setAuthToken(localStorage.token);
+		}
 		store.dispatch(loadUser());
+
+		window.addEventListener('storage', () => {
+			if (!localStorage.token) store.dispatch({ type: LOGOUT });
+		});
 	}, []);
 
 	return (
@@ -35,6 +46,23 @@ const App = () => {
 							path='/dashboard'
 							element={<PrivateRoute component={Dashboard} />}
 						/>
+						<Route
+							path='create-profile'
+							element={<PrivateRoute component={ProfileForm} />}
+						/>
+						<Route
+							path='edit-profile'
+							element={<PrivateRoute component={ProfileForm} />}
+						/>
+						<Route
+							path='add-experience'
+							element={<PrivateRoute component={AddExperience} />}
+						/>
+						<Route
+							path='add-education'
+							element={<PrivateRoute component={AddEducation} />}
+						/>
+						<Route path='/*' element={<NotFound />} />
 					</Routes>
 				</section>
 			</Router>
