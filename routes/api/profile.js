@@ -77,7 +77,6 @@ router.post(
 		if (skills) {
 			profileFields.skills = skills.split(',').map((skill) => skill.trim());
 		}
-		console.log(profileFields.skills);
 
 		// Build social object
 		profileFields.social = {};
