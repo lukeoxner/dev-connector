@@ -10,14 +10,8 @@ import {
 	ACCOUNT_DELETED,
 	GET_REPOS,
 	NO_REPOS,
+	LOGOUT,
 } from './types';
-
-/*
-  NOTE: we don't need a config object for axios as the
- default headers in axios are already Content-Type: application/json
- also axios stringifies and parses JSON for you, so no need for 
- JSON.stringify or JSON.parse
-*/
 
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
@@ -29,6 +23,7 @@ export const getCurrentProfile = () => async (dispatch) => {
 			payload: res.data,
 		});
 	} catch (err) {
+		dispatch({ type: CLEAR_PROFILE });
 		dispatch({
 			type: PROFILE_ERROR,
 			payload: { msg: err.response.statusText, status: err.response.status },
@@ -221,6 +216,7 @@ export const deleteAccount = () => async (dispatch) => {
 
 			dispatch({ type: CLEAR_PROFILE });
 			dispatch({ type: ACCOUNT_DELETED });
+			dispatch({ type: LOGOUT });
 
 			dispatch(setAlert('Your account has been permanently deleted'));
 		} catch (err) {

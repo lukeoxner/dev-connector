@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const normalize = require('normalize');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
@@ -28,7 +26,11 @@ router.post(
 			return res.status(400).json({ errors: errors.array() });
 		}
 
-		const { name, email, password } = req.body;
+		let { name, avatar, email, password } = req.body;
+
+		if (avatar == '') {
+			avatar = 'https://www.gravatar.com/avatar/a?s=200&r=pg&d=mm';
+		}
 
 		try {
 			// See if user already exists
@@ -39,16 +41,6 @@ router.post(
 					errors: [{ msg: 'User already exists' }],
 				});
 			}
-
-			// Get user gravatar
-			const avatar = normalize(
-				gravatar.url(email, {
-					s: '200',
-					r: 'pg',
-					d: 'mm',
-				}),
-				{ forceHttps: true }
-			);
 
 			// Create new user (does NOT save to database)
 			user = new User({

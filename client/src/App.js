@@ -13,6 +13,7 @@ import ProfileForm from './components/profile-forms/ProfileForm';
 import AddExperience from './components/profile-forms/AddExperience';
 import AddEducation from './components/profile-forms/AddEducation';
 import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -44,6 +45,7 @@ const App = () => {
 						<Route path='/register' element={<Register />} />
 						<Route path='/login' element={<Login />} />
 						<Route path='/profiles' element={<Profiles />} />
+						<Route path='profile/:id' element={<Profile />} />
 						<Route
 							path='/dashboard'
 							element={<PrivateRoute component={Dashboard} />}
